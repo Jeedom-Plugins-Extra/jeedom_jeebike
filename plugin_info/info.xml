@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>jeebike</id>
+    <name>Jeebike</name>
+    <description>Plugin donnant le nombre de Velib dispo pour une station</description>
+    <licence>AGPL</licence>
+    <author>frederic34</author>
+    <installation>Aucune</installation>
+    <require>2.3</require>
+    <category>monitoring</category>
+</info>
+
