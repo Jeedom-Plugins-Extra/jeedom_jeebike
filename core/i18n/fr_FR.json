@@ -1,0 +1,35 @@
+{
+    "plugins\/jeebike\/plugin_info\/info.json": {
+        "Plugin donnant le nombre de Velib dispo pour une station": "Plugin donnant le nombre de Velib dispo pour une station"
+    },
+    "plugins\/jeebike\/plugin_info\/configuration.php": {
+        "Clef API JCDecaux": "Clef API JCDecaux"
+    },
+    "plugins\/jeebike\/desktop\/php\/jeebike.php": {
+        "Ajouter une station": "Ajouter une station",
+        "Rechercher": "Rechercher",
+        "Mes stations": "Mes stations",
+        "Gestion": "Gestion",
+        "Ajouter": "Ajouter",
+        "Configuration": "Configuration",
+        "Sauvegarder": "Sauvegarder",
+        "Supprimer": "Supprimer",
+        "Configuration avancée": "Configuration avancée",
+        "Equipement": "Equipement",
+        "Commandes": "Commandes",
+        "Nom de la station": "Nom de la station",
+        "Objet parent": "Objet parent",
+        "Aucun": "Aucun",
+        "Activer": "Activer",
+        "Visible": "Visible",
+        "Ville": "Ville",
+        "Numéro": "Numéro",
+        "Nom": "Nom",
+        "Type": "Type",
+        "Action": "Action"
+    },
+    "plugins\/jeebike\/desktop\/js\/jeebike.js": {
+        "Nom": "Nom",
+        "Tester": "Tester"
+    }
+}
