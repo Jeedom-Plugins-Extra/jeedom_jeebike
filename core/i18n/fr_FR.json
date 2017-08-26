@@ -31,5 +31,18 @@
     "plugins\/jeebike\/desktop\/js\/jeebike.js": {
         "Nom": "Nom",
         "Tester": "Tester"
+    },
+    "plugins\/jeebike\/core\/class\/jeebike.class.php": {
+        "Ville": "Ville",
+        "Numéro": "Numéro",
+        "Nom": "Nom",
+        "Adresse": "Adresse",
+        "Borne de paiement": "Borne de paiement",
+        "Bonus": "Bonus",
+        "Statut": "Statut",
+        "Points d attache": "Points d attache",
+        "Points d attache libres": "Points d attache libres",
+        "Vélos disponibles": "Vélos disponibles",
+        "La numéro de station doit être spécifié": "La numéro de station doit être spécifié"
     }
 }

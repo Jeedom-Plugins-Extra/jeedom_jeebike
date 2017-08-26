@@ -57,20 +57,20 @@ foreach ($eqLogics as $eqLogic) {
         </div>
     </div>
 
-        <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
-            <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-            <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
-            <a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a>
+    <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
+        <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+        <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+        <a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a>
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
             <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Equipement}}</a></li>
             <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Commandes}}</a></li>
         </ul>
-        <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
-            <div role="tabpanel" class="tab-pane active" id="eqlogictab">
-                <br/>
-                <form class="form-horizontal">
-                    <fieldset>
+    <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
+        <div role="tabpanel" class="tab-pane active" id="eqlogictab">
+            <br/>
+            <form class="form-horizontal">
+                <fieldset>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">{{Nom de la station}}</label>
                         <div class="col-sm-3">
@@ -125,8 +125,8 @@ foreach ($allcontracts as $contract) {
                     </div>
                     <div class="form-group" id="number">
                         <div class="col-sm-3">
-                            <!-- <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="number" style="display : none;" /> -->
-                            <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="number" />
+                            <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="number" style="display : none;" />
+                            <!-- <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="number" /> -->
                         </div>
                     </div>
                 </fieldset>
@@ -134,17 +134,17 @@ foreach ($allcontracts as $contract) {
         </div>
         <div role="tabpanel" class="tab-pane" id="commandtab">
             <a class="btn btn-success btn-sm cmdAction pull-right" data-action="add" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Commandes}}</a><br/><br/>
-        <table id="table_cmd" class="table table-bordered table-condensed">
-        <thead>
-            <tr>
-                <th>{{Nom}}</th><th>{{Type}}</th><th>{{Action}}</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        </table>
+            <table id="table_cmd" class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th>{{Nom}}</th><th>{{Type}}</th><th>{{Action}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 </div>
 </div>
@@ -152,31 +152,18 @@ foreach ($allcontracts as $contract) {
 
 <script>
 $('#sel_contract').change(function(){
-    var $sel_number = $('#sel_number');
-    var $number = $('#number');
-    var $contracts = $("#sel_contract");
-    // chargement des contrats
-    //$.ajax({
-    //    url: 'plugins/jeebike/core/ajax/jeebike.ajax.php',
-    //    data: 'go', // on envoie $_POST['go']
-    //    dataType: 'json', // on veut un retour JSON
-    //    success: function(json) {
-    //        //$contracts.empty(); // on vide la liste
-    //        $.each(json.result, function(index, value) { // pour chaque noeud JSON
-    //            // on ajoute l option dans la liste
-    //            $contracts.append('<option value="'+ index +'">'+ value +'</option>');
-    //        });
-    //    }
-    //});
+    var sel_number = $('#sel_number');
+    var number = $('#number');
+    var contracts = $("#sel_contract");
  
     // à la sélection d un contrat dans la liste
-    $contracts.on('change', function() {
+    contracts.on('change', function() {
         var val = $(this).val(); // on récupère la valeur du contrat
-        console.log('contrat: '+val);
+        console.log('contrat: ' + val);
 
-        if(val != '') {
-            $sel_number.empty(); // on vide la liste
-            //$('.eqLogicAttr[data-l1key=configuration][data-l2key=number]').val('');
+        if (val != '') {
+            sel_number.empty(); // on vide la liste
+            $('.eqLogicAttr[data-l1key=configuration][data-l2key=number]').val('');
 
             $.ajax({
                 url: 'plugins/jeebike/core/ajax/jeebike.ajax.php',
@@ -184,24 +171,21 @@ $('#sel_contract').change(function(){
                 dataType: 'json',
                 success: function(json) {
                     $.each(json.result, function(index, value) {
-                        $sel_number.append('<option value="'+ index +'">'+ value +'</option>');
+                        sel_number.append('<option value="' + index + '">' + value + '</option>');
                     });
+                    $('.eqLogicAttr[data-l1key=configuration][data-l2key=number]').trigger("change");
                 }
             });
         }
-        //$('.eqLogicAttr[data-l1key=configuration][data-l2key=number]').trigger("change");
-        var selValue = $('input[data-l1key=configuration][data-l2key=number]').val();
-        //console.log($('.eqLogicAttr[data-l1key=configuration][data-l2key=number]'));
-        console.log('ajax number: '+selValue);
     });
 });
 $('.eqLogicAttr[data-l1key=configuration][data-l2key=number]').change(function() {
     var selectsValue = $(this).val();
-    //console.log('number: '+selectsValue);
-    $('#sel_number option[value="'+selectsValue+'"]').prop('selected', true);
+    console.log('number: ' + selectsValue);
+    $('#sel_number option[value="' + selectsValue + '"]').prop('selected', true);
 });   
 $('#sel_number').change(function() {
-    //console.log('sel_number: '+$(this).val());
+    console.log('sel_number: ' + $(this).val());
     $('.eqLogicAttr[data-l1key=configuration][data-l2key=number]').val($(this).val());
 }); 
 </script>
