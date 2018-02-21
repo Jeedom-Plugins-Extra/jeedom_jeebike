@@ -19,20 +19,22 @@
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
-class jeebike extends eqLogic {
+class jeebike extends eqLogic
+{
     /*     * *************************Attributs****************************** */
 
 
 
     /*     * ***********************Methode static*************************** */
 
-    public static function cron15() {
-        if (trim(config::byKey('apikey', 'jeebike'))!='') {
+    public static function cron15()
+    {
+        if (trim(config::byKey('apikey', 'jeebike')) != '') {
             log::add('jeebike', 'debug', 'jeebike cron15');
             foreach (eqLogic::byType('jeebike', true) as $jeebike) {
                 if ($jeebike->getIsEnable() == 1) {
-                    if (!empty($jeebike->getConfiguration('contract_name'))&& !empty($jeebike->getConfiguration('number'))) {
-                        log::add('jeebike', 'debug', 'récuperation données '.$jeebike->getConfiguration('contract_name').' '.$jeebike->getConfiguration('number'));
+                    if (!empty($jeebike->getConfiguration('contract_name')) && !empty($jeebike->getConfiguration('number'))) {
+                        log::add('jeebike', 'debug', 'récuperation données ' . $jeebike->getConfiguration('contract_name') . ' ' . $jeebike->getConfiguration('number'));
                         $jeebike->getBikes($jeebike->getConfiguration('number'), $jeebike->getConfiguration('contract_name'), trim(config::byKey('apikey', 'jeebike')));
                     } else {
                         log::add('jeebike', 'debug', 'config incomplète');
@@ -44,67 +46,73 @@ class jeebike extends eqLogic {
         }
     }
 
-
-    public function getAllContracts() {
-        $apikey = trim(config::byKey('apikey', 'jeebike'));
-        $url ='https://api.jcdecaux.com/vls/v1/contracts?apiKey='.$apikey;
+    public function getAllContracts()
+    {
+        $apikey       = trim(config::byKey('apikey', 'jeebike'));
+        $url          = 'https://api.jcdecaux.com/vls/v1/contracts?apiKey=' . $apikey;
         //log::add('jeebike', 'debug', print_r($url, true));
-        $json = file_get_contents($url);
+        $json         = file_get_contents($url);
         $allcontracts = json_decode($json);
         //log::add('jeebike', 'debug', print_r($allcontracts, true));
         return $allcontracts;
     }
 
-    public function getStationsForContract($contract) {
-        $apikey = trim(config::byKey('apikey', 'jeebike'));
-        $url ='https://api.jcdecaux.com/vls/v1/stations?contract='.$contract.'&apiKey='.$apikey;
+    public function getStationsForContract($contract)
+    {
+        $apikey   = trim(config::byKey('apikey', 'jeebike'));
+        $url      = 'https://api.jcdecaux.com/vls/v1/stations?contract=' . $contract . '&apiKey=' . $apikey;
         //log::add('jeebike', 'debug', print_r($url, true));
-        $json = file_get_contents($url);
+        $json     = file_get_contents($url);
         $stations = json_decode($json);
         //log::add('jeebike', 'debug', print_r($stations, true));
         return $stations;
     }
 
-    public function getAllStations() {
-        $apikey = trim(config::byKey('apikey', 'jeebike'));
-        $url ='https://api.jcdecaux.com/vls/v1/stations?apiKey='.$apikey;
+    public function getAllStations()
+    {
+        $apikey      = trim(config::byKey('apikey', 'jeebike'));
+        $url         = 'https://api.jcdecaux.com/vls/v1/stations?apiKey=' . $apikey;
         //log::add('jeebike', 'debug', print_r($url, true));
-        $json = file_get_contents($url);
+        $json        = file_get_contents($url);
         $allstations = json_decode($json);
         //log::add('jeebike', 'debug', print_r($allstations, true));
         return $allstations;
     }
 
-
-
     /*     * *********************Méthodes d'instance************************* */
 
-    public function preInsert() {
-
-    }
-
-    public function postInsert() {
-
-    }
-
-    public function preSave() {
-
-    }
-
-    public function postSave() {
+    public function preInsert()
+    {
         
     }
 
-    public function preUpdate() {
+    public function postInsert()
+    {
+        
+    }
+
+    public function preSave()
+    {
+        
+    }
+
+    public function postSave()
+    {
+        
+    }
+
+    public function preUpdate()
+    {
         if (empty($this->getConfiguration('contract_name'))) {
-            throw new Exception(__('La ville doit être spécifiée',__FILE__));
+            throw new Exception(__('La ville doit être spécifiée', __FILE__));
         }
         if (empty($this->getConfiguration('number'))) {
-            throw new Exception(__('La numéro de station doit être spécifié',__FILE__));
+            throw new Exception(__('La numéro de station doit être spécifié', __FILE__));
         }
     }
 
-    public function postUpdate() {
+    public function postUpdate()
+    {
         log::add('jeebike', 'debug', '** postUpdate **');
         $cmdlogic = jeebikeCmd::byEqLogicIdAndLogicalId($this->getId(), 'contract_name');
         if (!is_object($cmdlogic)) {
@@ -246,11 +254,13 @@ class jeebike extends eqLogic {
         }
     }
 
-    public function preRemove() {
+    public function preRemove()
+    {
         
     }
 
-    public function postRemove() {
+    public function postRemove()
+    {
         
     }
 
@@ -262,13 +272,15 @@ class jeebike extends eqLogic {
      */
 
     /*     * **********************Getteur Setteur*************************** */
-    public function getBikes($number, $contract, $apikey) {
-        $url ='https://api.jcdecaux.com/vls/v1/stations/'.$number.'?contract='.$contract.'&apiKey='.$apikey;
-        $json = file_get_contents($url);
+
+    public function getBikes($number, $contract, $apikey)
+    {
+        $url      = 'https://api.jcdecaux.com/vls/v1/stations/' . $number . '?contract=' . $contract . '&apiKey=' . $apikey;
+        $json     = file_get_contents($url);
         $json_ret = json_decode($json);
         log::add('jeebike', 'debug', print_r($json_ret, true));
         // epoch timestamp
-        $date = date("Y-m-d H:i:s", substr($json_ret->last_update, 0,10));
+        $date     = date("Y-m-d H:i:s", substr($json_ret->last_update, 0, 10));
 
         $cmd = $this->getCmd(null, 'status');
         if (is_object($cmd)) {
@@ -281,7 +293,7 @@ class jeebike extends eqLogic {
             $cmd->setCollectDate($date);
             $cmd->event($json_ret->bike_stands);
         }
- 
+
         $cmd = $this->getCmd(null, 'available_bike_stands');
         if (is_object($cmd)) {
             $cmd->setCollectDate($date);
@@ -295,13 +307,14 @@ class jeebike extends eqLogic {
         }
     }
 
-    public function getStationInfo($number, $contract, $apikey) {
-        $url ='https://api.jcdecaux.com/vls/v1/stations/'.$number.'?contract='.$contract.'&apiKey='.$apikey;
-        $json = file_get_contents($url);
+    public function getStationInfo($number, $contract, $apikey)
+    {
+        $url      = 'https://api.jcdecaux.com/vls/v1/stations/' . $number . '?contract=' . $contract . '&apiKey=' . $apikey;
+        $json     = file_get_contents($url);
         $json_ret = json_decode($json);
         log::add('jeebike', 'debug', print_r($json_ret, true));
         // epoch timestamp
-        $date = date("Y-m-d H:i:s", substr($json_ret->last_update, 0,10));
+        $date     = date("Y-m-d H:i:s", substr($json_ret->last_update, 0, 10));
 
         $cmd = $this->getCmd(null, 'number');
         if (is_object($cmd)) {
@@ -339,9 +352,11 @@ class jeebike extends eqLogic {
             $cmd->event($json_ret->bonus);
         }
     }
+
 }
 
-class jeebikeCmd extends cmd {
+class jeebikeCmd extends cmd
+{
     /*     * *************************Attributs****************************** */
 
 
@@ -357,11 +372,10 @@ class jeebikeCmd extends cmd {
       }
      */
 
-    public function execute($_options = array()) {
+    public function execute($_options = array())
+    {
         
     }
 
     /*     * **********************Getteur Setteur*************************** */
 }
-
-?>
