@@ -21,11 +21,8 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class jeebike extends eqLogic
 {
-    /*     * *************************Attributs****************************** */
 
-
-
-    /*     * ***********************Methode static*************************** */
+    private $url = 'https://api.jcdecaux.com';
 
     public static function cron15()
     {
@@ -49,7 +46,7 @@ class jeebike extends eqLogic
     public function getAllContracts()
     {
         $apikey       = trim(config::byKey('apikey', 'jeebike'));
-        $url          = 'https://api.jcdecaux.com/vls/v1/contracts?apiKey=' . $apikey;
+        $url          = $this->url . '/vls/v1/contracts?apiKey=' . $apikey;
         //log::add('jeebike', 'debug', print_r($url, true));
         $json         = file_get_contents($url);
         $allcontracts = json_decode($json);
@@ -60,7 +57,7 @@ class jeebike extends eqLogic
     public function getStationsForContract($contract)
     {
         $apikey   = trim(config::byKey('apikey', 'jeebike'));
-        $url      = 'https://api.jcdecaux.com/vls/v1/stations?contract=' . $contract . '&apiKey=' . $apikey;
+        $url      = $this->url . '/vls/v1/stations?contract=' . $contract . '&apiKey=' . $apikey;
         //log::add('jeebike', 'debug', print_r($url, true));
         $json     = file_get_contents($url);
         $stations = json_decode($json);
@@ -71,7 +68,7 @@ class jeebike extends eqLogic
     public function getAllStations()
     {
         $apikey      = trim(config::byKey('apikey', 'jeebike'));
-        $url         = 'https://api.jcdecaux.com/vls/v1/stations?apiKey=' . $apikey;
+        $url         = $this->url . '/vls/v1/stations?apiKey=' . $apikey;
         //log::add('jeebike', 'debug', print_r($url, true));
         $json        = file_get_contents($url);
         $allstations = json_decode($json);
@@ -79,35 +76,36 @@ class jeebike extends eqLogic
         return $allstations;
     }
 
-    /*     * *********************Méthodes d'instance************************* */
+    /*
 
-    public function preInsert()
-    {
-        
-    }
+      public function preInsert()
+      {
 
-    public function postInsert()
-    {
-        
-    }
+      }
 
-    public function preSave()
-    {
-        
-    }
+      public function postInsert()
+      {
 
-    public function postSave()
-    {
-        
-    }
+      }
+
+      public function preSave()
+      {
+
+      }
+
+      public function postSave()
+      {
+
+      }
+     */
 
     public function preUpdate()
     {
         if (empty($this->getConfiguration('contract_name'))) {
-            throw new Exception(__('La ville doit être spécifiée', __FILE__));
+            throw new \Exception(__('La ville doit être spécifiée', __FILE__));
         }
         if (empty($this->getConfiguration('number'))) {
-            throw new Exception(__('La numéro de station doit être spécifié', __FILE__));
+            throw new \Exception(__('La numéro de station doit être spécifié', __FILE__));
         }
     }
 
@@ -116,14 +114,14 @@ class jeebike extends eqLogic
         log::add('jeebike', 'debug', '** postUpdate **');
         $cmdlogic = jeebikeCmd::byEqLogicIdAndLogicalId($this->getId(), 'contract_name');
         if (!is_object($cmdlogic)) {
-            $jeebikeCmd = new jeebikeCmd();
-            $jeebikeCmd->setName(__('Ville', __FILE__));
-            $jeebikeCmd->setEqLogic_id($this->id);
-            $jeebikeCmd->setLogicalId('contract_name');
-            $jeebikeCmd->setConfiguration('data', 'contract_name');
-            $jeebikeCmd->setType('info');
-            $jeebikeCmd->setSubType('string');
-            $jeebikeCmd->setIsHistorized(0);
+            $jeebikeCmd = (new jeebikeCmd())
+                    ->setName(__('Ville', __FILE__))
+                    ->setEqLogic_id($this->id)
+                    ->setLogicalId('contract_name')
+                    ->setConfiguration('data', 'contract_name')
+                    ->setType('info')
+                    ->setSubType('string')
+                    ->setIsHistorized(0);
             $jeebikeCmd->save();
         }
 
@@ -254,15 +252,15 @@ class jeebike extends eqLogic
         }
     }
 
-    public function preRemove()
-    {
-        
-    }
+    /* public function preRemove()
+      {
 
-    public function postRemove()
-    {
-        
-    }
+      }
+
+      public function postRemove()
+      {
+
+      } */
 
     /*
      * Non obligatoire mais permet de modifier l'affichage du widget si vous en avez besoin
@@ -271,11 +269,9 @@ class jeebike extends eqLogic
       }
      */
 
-    /*     * **********************Getteur Setteur*************************** */
-
     public function getBikes($number, $contract, $apikey)
     {
-        $url      = 'https://api.jcdecaux.com/vls/v1/stations/' . $number . '?contract=' . $contract . '&apiKey=' . $apikey;
+        $url      = $this->url . '/vls/v1/stations/' . $number . '?contract=' . $contract . '&apiKey=' . $apikey;
         $json     = file_get_contents($url);
         $json_ret = json_decode($json);
         log::add('jeebike', 'debug', print_r($json_ret, true));
@@ -309,7 +305,7 @@ class jeebike extends eqLogic
 
     public function getStationInfo($number, $contract, $apikey)
     {
-        $url      = 'https://api.jcdecaux.com/vls/v1/stations/' . $number . '?contract=' . $contract . '&apiKey=' . $apikey;
+        $url      = $this->url . '/vls/v1/stations/' . $number . '?contract=' . $contract . '&apiKey=' . $apikey;
         $json     = file_get_contents($url);
         $json_ret = json_decode($json);
         log::add('jeebike', 'debug', print_r($json_ret, true));
@@ -357,14 +353,6 @@ class jeebike extends eqLogic
 
 class jeebikeCmd extends cmd
 {
-    /*     * *************************Attributs****************************** */
-
-
-    /*     * ***********************Methode static*************************** */
-
-
-    /*     * *********************Methode d'instance************************* */
-
     /*
      * Non obligatoire permet de demander de ne pas supprimer les commandes même si elles ne sont pas dans la nouvelle configuration de l'équipement envoyé en JS
       public function dontRemoveCmd() {
@@ -377,5 +365,4 @@ class jeebikeCmd extends cmd
         
     }
 
-    /*     * **********************Getteur Setteur*************************** */
 }
